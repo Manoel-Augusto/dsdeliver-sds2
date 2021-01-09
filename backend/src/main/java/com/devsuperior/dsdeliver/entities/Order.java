@@ -21,7 +21,7 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	private Instant moment;
 	private String address;
@@ -34,111 +34,82 @@ public class Order implements Serializable {
 	joinColumns = @JoinColumn(name = "order_id"),
 	inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private Set<Product> products = new HashSet<>();
-
-	public Order() {
-	}
-
 	
+	public Order() {}
 
-	public Order(long id, Instant moment, String address, Double longitude, Double latitude, OrderStatus status,
-			Set<Product> products) {
-		super();
+	public Order(Long id, Instant moment, String address, Double longitude, Double latitude, OrderStatus status
+			) {
+		
 		this.id = id;
 		this.moment = moment;
 		this.address = address;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.status = status;
-		this.products = products;
+		
 	}
 
 
 
 	
 
-	public long getId() {
+	
+
+
+
+	public Long getId() {
 		return id;
 	}
 
-
-
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 
 	public Instant getMoment() {
 		return moment;
 	}
 
-
-
 	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
-
-
 
 	public String getAddress() {
 		return address;
 	}
 
-
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-
 
 	public Double getLongitude() {
 		return longitude;
 	}
 
-
-
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-
-
 
 	public Double getLatitude() {
 		return latitude;
 	}
 
-
-
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
-
-
 
 	public OrderStatus getStatus() {
 		return status;
 	}
 
-
-
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
-
-
 
 	public Set<Product> getProducts() {
 		return products;
 	}
 
-
-
-	public void setProducts(Set<Product> products) {
-		this.products = products;
-	}
-
-
+	
 
 	@Override
 	public int hashCode() {
