@@ -1,5 +1,3 @@
-
-import { isPropertySignature } from 'typescript';
 import { formatPrice } from './helpers';
 import { Product } from './types'
 
