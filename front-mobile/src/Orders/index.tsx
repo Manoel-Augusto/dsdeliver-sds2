@@ -1,21 +1,55 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { fetchOrders } from '../api';
 import Header from '../Header';
 import OrderCard from '../OrderCard';
+import { Order } from '../types';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 function Orders() {
+const[orders, setOrders]=useState<Order[]>([]);
+const[isLoading, setIsloading]=useState(false);
+const navigation = useNavigation();
+const isFocused=useIsFocused();
+
+const fetchData=()=>{
+    setIsloading(true);
+        fetchOrders()
+    .then(response=>setOrders(response.data))
+    .catch((()=>Alert.alert('Houve um erro ao buscar os pedidos!')))
+    .finally(()=>setIsloading(false));
+}
+    useEffect(()=>{
+        if(isFocused){
+            fetchData();
+        }
+        
+},[isFocused]);
+
+const handleOnPress=(order: Order)=>{
+navigation.navigate('OrderDetails',{
+    order
+});
+}
 
     return (
         <>
             <Header />
 
             <ScrollView style={styles.container}>
-                <OrderCard />
-                <OrderCard />
-                <OrderCard />
-                <OrderCard />
-                <OrderCard />
+                {isLoading ? (
+                    <Text>Buscando pedidos...</Text>
+                ) : (
+                    orders.map(order=>(
+                        <TouchableWithoutFeedback 
+                        key={order.id}
+                        onPress={()=>handleOnPress(order)}>
+                            <OrderCard order={order} />
+                        </TouchableWithoutFeedback>
+                    ))
+                )}
+                
             </ScrollView>
         </>
 
